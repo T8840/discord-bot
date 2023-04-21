@@ -1,6 +1,7 @@
 import os
 import openai
 import discord
+import datetime
 from random import randrange
 from src.aclient import client
 from discord import app_commands
@@ -278,6 +279,24 @@ https://github.com/Zero6992/chatGPT-discord-bot""")
 
     @client.event
     async def on_message(message):
+        from src.opsupabase import supabase
+        now_time = datetime.datetime.now()
+        target_channel = os.getenv("DISCORD_CHANNEL_ID")
+        test_channel = os.getenv("TEST_DISCORD_CHANNEL_ID")
+        logger.info(
+            f'channel_id:{message.channel.id},频道:{message.channel},消息发送者:{message.author},消息内容:{message.content},消息发送时间:{now_time}')
+        if str(message.channel.id) == str(target_channel):
+            supabase.table("message").insert(
+            {"sender": str(message.author), "content": str(message.content), "channel_id": str(message.channel.id), "channel_name": str(message.channel)}).execute()
+        elif str(message.channel.id) == str(test_channel):
+            supabase.table("test_message").insert(
+                {"sender": str(message.author), "content": str(message.content), "channel_id": str(message.channel.id),
+                 "channel_name": str(message.channel)}).execute()
+        else:
+            supabase.table("dev_message").insert(
+                {"sender": str(message.author), "content": str(message.content), "channel_id": str(message.channel.id),
+                 "channel_name": str(message.channel)}).execute()
+
         if client.is_replying_all == "True":
             if message.author == client.user:
                 return
