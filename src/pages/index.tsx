@@ -17,7 +17,7 @@ const Home: FC = () => {
         </h1>
 
         <div className={styles.buttonWrapper}>
-          <a href="https://discord.com/api/oauth2/authorize?client_id=1101333903865806979&permissions=0&scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer" className={styles.button}>
+          <a href="https://discord.com/api/oauth2/authorize?client_id=1099948197956304986&permissions=0&scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer" className={styles.button}>
             Inviter
           </a>
         </div>
